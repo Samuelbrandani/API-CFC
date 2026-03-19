@@ -11,7 +11,7 @@ class LoginDAO extends FirebirdConnection
 
     public function loginAluno($COD_ALUNO, $SENHA)
     {
-        $sql = "SELECT COD_ALUNO, NOME_ALUNO, SENHA FROM aluno WHERE COD_ALUNO = :COD_ALUNO AND SENHA = :SENHA";
+        $sql = "SELECT COD_ALUNO, NOME_ALUNO, SENHA FROM ALUNO WHERE COD_ALUNO = :COD_ALUNO AND SENHA = :SENHA";
         $statement = $this->pdo->prepare($sql);
         $statement->execute([
             "COD_ALUNO" => $COD_ALUNO,
@@ -22,7 +22,7 @@ class LoginDAO extends FirebirdConnection
 
     public function loginInstrutor($COD_INSTRUTOR, $SENHA)
     {
-        $sql = "SELECT * FROM instrutor WHERE COD_INSTRUTOR = :COD_INSTRUTOR AND SENHA = :SENHA";
+        $sql = "SELECT * FROM INSTRUTOR WHERE COD_INSTRUTOR = :COD_INSTRUTOR AND SENHA = :SENHA";
         $statement = $this->pdo->prepare($sql);
         $statement->execute([
             "COD_INSTRUTOR" => $COD_INSTRUTOR,

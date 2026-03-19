@@ -13,7 +13,7 @@ class OneSignalDAO extends FirebirdConnection
     {
         // Replace GEN_ID(gen_onesignal, 1) with the actual generator name in your database.
         $statement = $this->pdo->prepare(
-            'INSERT INTO onesignal (id, player_id, cod_aluno) VALUES (GEN_ID(gen_onesignal, 1), :player_id, :COD_ALUNO)'
+            'INSERT INTO ONESIGNAL (id, player_id, cod_aluno) VALUES (GEN_ID(gen_onesignal, 1), :player_id, :COD_ALUNO)'
         );
         $statement->execute([
             "player_id" => $player_id,
@@ -24,7 +24,7 @@ class OneSignalDAO extends FirebirdConnection
 
     public function checkPlayerId($player_id)
     {
-        $statement = $this->pdo->prepare('SELECT * FROM onesignal WHERE player_id = :player_id');
+        $statement = $this->pdo->prepare('SELECT * FROM ONESIGNAL WHERE player_id = :player_id');
         $statement->execute([
             "player_id" => $player_id
         ]);

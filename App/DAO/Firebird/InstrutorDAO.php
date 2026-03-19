@@ -34,7 +34,7 @@ class InstrutorDAO extends FirebirdConnection
 
     public function getAdmInstrutor()
     {
-        $sql = "SELECT * FROM instrutor";
+        $sql = "SELECT * FROM INSTRUTOR";
         $statement = $this->pdo->prepare($sql);
         $statement->execute();
         return $statement->fetchAll(\PDO::FETCH_ASSOC);

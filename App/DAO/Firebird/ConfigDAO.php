@@ -11,7 +11,7 @@ class ConfigDAO extends FirebirdConnection
 
     public function getBaseConfigs()
     {
-        $sql = "SELECT * FROM configuracoes";
+        $sql = "SELECT * FROM CONFIGURACOES";
         $statement = $this->pdo->prepare($sql);
         $statement->execute();
         return $statement->fetchAll(\PDO::FETCH_ASSOC);

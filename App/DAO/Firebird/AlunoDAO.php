@@ -12,7 +12,7 @@ class AlunoDAO extends FirebirdConnection
     public function aulasAluno($COD_ALUNO)
     {
         // Firebird does not use backtick quoting; ORDER BY uses column name directly
-        $sql = "SELECT ID, COD_ALUNO, VEICULO, NUMERO_AULA, DATA, HORA, OBS, INSTRUTOR FROM marc_aula_direcao WHERE COD_ALUNO = :COD_ALUNO ORDER BY NUMERO_AULA DESC";
+        $sql = "SELECT ID, COD_ALUNO, VEICULO, NUMERO_AULA, DATA, HORA, OBS, INSTRUTOR FROM MARC_AULA_DIRECAO WHERE COD_ALUNO = :COD_ALUNO ORDER BY NUMERO_AULA DESC";
         $statement = $this->pdo->prepare($sql);
         $statement->execute([
             "COD_ALUNO" => $COD_ALUNO
@@ -22,8 +22,8 @@ class AlunoDAO extends FirebirdConnection
 
     public function examesAluno($COD_ALUNO)
     {
-        $SQL_LEGISLACAO = "SELECT * FROM resultado_exames WHERE COD_ALUNO = :COD_ALUNO AND CATEG_EXAME = 'LEGISLACAO'";
-        $SQL_DIRECAO    = "SELECT * FROM resultado_exames WHERE COD_ALUNO = :COD_ALUNO AND CATEG_EXAME = 'DIRECAO'";
+        $SQL_LEGISLACAO = "SELECT * FROM RESULTADO_EXAMES WHERE COD_ALUNO = :COD_ALUNO AND CATEG_EXAME = 'LEGISLACAO'";
+        $SQL_DIRECAO    = "SELECT * FROM RESULTADO_EXAMES WHERE COD_ALUNO = :COD_ALUNO AND CATEG_EXAME = 'DIRECAO'";
 
         $statement_legislacao = $this->pdo->prepare($SQL_LEGISLACAO);
         $statement_legislacao->execute(["COD_ALUNO" => $COD_ALUNO]);
@@ -39,7 +39,7 @@ class AlunoDAO extends FirebirdConnection
 
     public function exameLegislacao($COD_ALUNO)
     {
-        $sql = "SELECT * FROM resultado_exames WHERE COD_ALUNO = :COD_ALUNO AND CATEG_EXAME = 'LEGISLACAO'";
+        $sql = "SELECT * FROM RESULTADO_EXAMES WHERE COD_ALUNO = :COD_ALUNO AND CATEG_EXAME = 'LEGISLACAO'";
         $statement = $this->pdo->prepare($sql);
         $statement->execute(["COD_ALUNO" => $COD_ALUNO]);
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
@@ -47,7 +47,7 @@ class AlunoDAO extends FirebirdConnection
 
     public function exameDirecao($COD_ALUNO)
     {
-        $sql = "SELECT * FROM resultado_exames WHERE COD_ALUNO = :COD_ALUNO AND CATEG_EXAME = 'DIRECAO'";
+        $sql = "SELECT * FROM RESULTADO_EXAMES WHERE COD_ALUNO = :COD_ALUNO AND CATEG_EXAME = 'DIRECAO'";
         $statement = $this->pdo->prepare($sql);
         $statement->execute(["COD_ALUNO" => $COD_ALUNO]);
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
@@ -55,7 +55,7 @@ class AlunoDAO extends FirebirdConnection
 
     public function financeiroAluno($COD_ALUNO)
     {
-        $sql = "SELECT * FROM financa_aluno WHERE COD_ALUNO = :COD_ALUNO";
+        $sql = "SELECT * FROM FINANCA_ALUNO WHERE COD_ALUNO = :COD_ALUNO";
         $statement = $this->pdo->prepare($sql);
         $statement->execute(["COD_ALUNO" => $COD_ALUNO]);
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
@@ -63,7 +63,7 @@ class AlunoDAO extends FirebirdConnection
 
     public function financeiroAlunoTodos($COD_ALUNO)
     {
-        $sql = "SELECT * FROM financa_aluno WHERE COD_ALUNO = :COD_ALUNO";
+        $sql = "SELECT * FROM FINANCA_ALUNO WHERE COD_ALUNO = :COD_ALUNO";
         $statement = $this->pdo->prepare($sql);
         $statement->execute(["COD_ALUNO" => $COD_ALUNO]);
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
@@ -71,7 +71,7 @@ class AlunoDAO extends FirebirdConnection
 
     public function financeiroAlunoAPagar($COD_ALUNO)
     {
-        $sql = "SELECT * FROM financa_aluno WHERE COD_ALUNO = :COD_ALUNO AND STATUS_PAGAMENTO = 'N'";
+        $sql = "SELECT * FROM FINANCA_ALUNO WHERE COD_ALUNO = :COD_ALUNO AND STATUS_PAGAMENTO = 'N'";
         $statement = $this->pdo->prepare($sql);
         $statement->execute(["COD_ALUNO" => $COD_ALUNO]);
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
@@ -79,7 +79,7 @@ class AlunoDAO extends FirebirdConnection
 
     public function financeiroAlunoPagos($COD_ALUNO)
     {
-        $sql = "SELECT * FROM financa_aluno WHERE COD_ALUNO = :COD_ALUNO AND STATUS_PAGAMENTO = 'S'";
+        $sql = "SELECT * FROM FINANCA_ALUNO WHERE COD_ALUNO = :COD_ALUNO AND STATUS_PAGAMENTO = 'S'";
         $statement = $this->pdo->prepare($sql);
         $statement->execute(["COD_ALUNO" => $COD_ALUNO]);
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
