@@ -23,14 +23,19 @@ No build, test, or lint pipeline is configured.
 
 ## Architecture
 
-**Request flow:** Apache → `.htaccess` rewrite → `index.php` (bootstrap + CORS headers) → `routes/index.php` (Slim routes) → Controller → DAO → MySQL → JSON response
+**Request flow:** Apache → `.htaccess` rewrite → `index.php` (bootstrap + CORS headers) → `routes/index.php` (Slim routes) → Controller → `DAOFactory` → DAO → Database → JSON response
 
 **Key layers:**
 - `routes/index.php` — all routes grouped under `/api`, parameterized with `{cfc}` identifier
-- `App/Controllers/` — thin controllers that parse the request and delegate to DAOs
-- `App/DAO/MySQL/` — all SQL logic; `Conexao.php` is the abstract base class that selects the correct database connection based on the `{cfc}` hash passed in the URL
+- `App/Controllers/` — thin controllers that parse the request and call `DAOFactory` to get the right DAO
+- `App/DAO/DAOFactory.php` — maps each CFC hash to its database config and instantiates the correct DAO (MySQL or Firebird)
+- `App/DAO/MySQL/` and `App/DAO/Firebird/` — parallel DAO implementations for each database engine
 
-**Multi-tenancy:** Each CFC (driving school) has its own MySQL database. `Conexao.php` contains hardcoded credentials for each school keyed by their hash ID. When modifying or adding DAOs, extend `Conexao` and call `$this->conectar($cfc)` to get the right PDO connection.
+**Multi-tenancy + dual database support:** `DAOFactory` contains a hardcoded `$connections` map of CFC hash → DB config. Each config has a `driver` key (`mysql` or `firebird`). When adding a new CFC, add an entry there. When adding a new DAO method, implement it in both `App/DAO/MySQL/<Name>DAO.php` (extends `MysqlConnection`) and `App/DAO/Firebird/<Name>DAO.php` (extends `FirebirdConnection`), then add a `create<Name>DAO` factory method.
+
+**Connection base classes:**
+- `App/DAO/MySQL/MysqlConnection.php` — abstract base; constructor takes config array and opens a PDO connection on port 3306
+- `App/DAO/Firebird/FirebirdConnection.php` — abstract base; constructor takes config array and opens a PDO connection on port 3050 (default)
 
 **Autoloading:** PSR-4 — `App\` namespace maps to `App/` directory (configured in `composer.json`).
 
@@ -40,11 +45,12 @@ No build, test, or lint pipeline is configured.
 |---|---|
 | `index.php` | Entry point: loads autoloader, sets CORS headers, runs Slim app |
 | `routes/index.php` | All route definitions |
-| `App/DAO/MySQL/Conexao.php` | Abstract base with multi-tenant DB connection logic |
+| `App/DAO/DAOFactory.php` | Multi-tenant connection registry; creates the right DAO for each CFC hash |
 | `App/Controllers/LoginController.php` | Student and instructor authentication |
 | `App/Controllers/AlunoController.php` | Student data (classes, exams, financials) |
 | `App/Controllers/InstrutorController.php` | Instructor operations |
 | `App/Controllers/OneSignalController.php` | Push notification integration |
+| `App/Controllers/PHPMailerController.php` | Transactional email via SMTP/Gmail |
 
 ## API Route Pattern
 

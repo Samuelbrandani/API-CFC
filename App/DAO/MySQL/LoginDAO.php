@@ -2,11 +2,11 @@
 
 namespace App\DAO\MySQL;
 
-class LoginDAO extends Conexao
+class LoginDAO extends MysqlConnection
 {
-    public function __construct($cfc)
+    public function __construct(array $config)
     {
-        parent::__construct($cfc);
+        parent::__construct($config);
     }
     public function loginAluno($COD_ALUNO, $SENHA)
     {

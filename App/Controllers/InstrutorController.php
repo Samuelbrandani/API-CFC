@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\DAO\MySQL\InstrutorDAO;
+use App\DAO\DAOFactory;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \Slim\Http\Response as Response;
 
@@ -14,7 +14,7 @@ final class InstrutorController
         $data1 = $args["data1"];
         $data2 = $args["data2"];
 
-        $instrutorDAO = new InstrutorDAO($args['cfc']);
+        $instrutorDAO = DAOFactory::createInstrutorDAO($args['cfc']);
         if ($data2 == "nop")
             $detalhes = $instrutorDAO->getClassesOfTheDay($codInstrutor, $data1);
         else
@@ -33,7 +33,7 @@ final class InstrutorController
 
     public function getAdmInstrutor(Request $request, Response $response, array $args): Response
     {
-        $instrutorDAO = new InstrutorDAO($args['cfc']);
+        $instrutorDAO = DAOFactory::createInstrutorDAO($args['cfc']);
         $returns = $instrutorDAO->getAdmInstrutor();
         $response = $response->withJson($returns);
 
@@ -46,7 +46,7 @@ final class InstrutorController
 
         $data1 = $args["data1"];
         $data2 = $args["data2"];
-        $instrutorDAO = new InstrutorDAO($args['cfc']);
+        $instrutorDAO = DAOFactory::createInstrutorDAO($args['cfc']);
         if ($data2 == "nop")
             $detalhes = $instrutorDAO->getClassesOfTheDay($codInstrutor, $data1);
         else

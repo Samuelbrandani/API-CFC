@@ -2,11 +2,11 @@
 
 namespace App\DAO\MySQL;
 
-class AlunoDAO extends Conexao
+class AlunoDAO extends MysqlConnection
 {
-    public function __construct($cfc)
+    public function __construct(array $config)
     {
-        parent::__construct($cfc);
+        parent::__construct($config);
     }
     public function aulasAluno($COD_ALUNO)
     {

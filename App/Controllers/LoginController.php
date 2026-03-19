@@ -2,8 +2,7 @@
 
 namespace App\Controllers;
 
-use App\DAO\MySQL\LoginDAO;
-use App\DAO\MySQL\OneSignalDAO;
+use App\DAO\DAOFactory;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \Slim\Http\Response as Response;
 
@@ -15,11 +14,11 @@ final class LoginController
         $COD_ALUNO = $data["cpf"];
         $SENHA = $data["senha"];
         $player_id = $data["player_id"];
-        $loginDAO = new LoginDAO($args['cfc']);
+        $loginDAO = DAOFactory::createLoginDAO($args['cfc']);
         $detalhes = $loginDAO->loginAluno($COD_ALUNO, $SENHA);
         if (count($detalhes) != 0 || $detalhes != null) {
             if ($player_id != "") {
-                $oneSignalDAO = new OneSignalDAO($args['cfc']);
+                $oneSignalDAO = DAOFactory::createOneSignalDAO($args['cfc']);
                 if ($oneSignalDAO->checkPlayerId($player_id)) {
                     if ($oneSignalDAO->insertPlayerId($player_id, $COD_ALUNO)) {
                         $response = $response->withJson(array('data' => $detalhes));
@@ -48,7 +47,7 @@ final class LoginController
         $data = $request->getParsedBody();
         $cpf = $data["cpf"];
         $senha = $data["senha"];
-        $loginDAO = new LoginDAO($args['cfc']);
+        $loginDAO = DAOFactory::createLoginDAO($args['cfc']);
         $detalhes = $loginDAO->loginInstrutor($cpf, $senha);
         if (count($detalhes) != 0 || $detalhes != null) {
             $returns = array('data' => $detalhes);

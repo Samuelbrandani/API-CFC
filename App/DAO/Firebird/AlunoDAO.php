@@ -2,11 +2,11 @@
 
 namespace App\DAO\Firebird;
 
-class AlunoDAO extends Conexao
+class AlunoDAO extends FirebirdConnection
 {
-    public function __construct($cfc)
+    public function __construct(array $config)
     {
-        parent::__construct($cfc);
+        parent::__construct($config);
     }
 
     public function aulasAluno($COD_ALUNO)

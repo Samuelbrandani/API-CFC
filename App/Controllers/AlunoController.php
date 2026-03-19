@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\DAO\MySQL\AlunoDAO;
+use App\DAO\DAOFactory;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \Slim\Http\Response as Response;
 
@@ -35,7 +35,7 @@ final class AlunoController
 
     private function aulas($COD_ALUNO, $CFC)
     {
-        $aulasDAO = new AlunoDAO($CFC);
+        $aulasDAO = DAOFactory::createAlunoDAO($CFC);
         $result = $aulasDAO->aulasAluno($COD_ALUNO);
 
         return $result;
@@ -43,7 +43,7 @@ final class AlunoController
 
     private function exames($COD_ALUNO, $CFC)
     {
-        $aulasDAO = new AlunoDAO($CFC);
+        $aulasDAO = DAOFactory::createAlunoDAO($CFC);
         $result = $aulasDAO->examesAluno($COD_ALUNO);
 
         return $result;
@@ -51,7 +51,7 @@ final class AlunoController
 
     private function financeirov2($COD_ALUNO, $CFC)
     {
-        $aulasDAO = new AlunoDAO($CFC);
+        $aulasDAO = DAOFactory::createAlunoDAO($CFC);
         $FPAGO = $aulasDAO->financeiroAlunoPagos($COD_ALUNO);
         $FPAGAR = $aulasDAO->financeiroAlunoAPagar($COD_ALUNO);
         $FTODOS = $aulasDAO->financeiroAlunoTodos($COD_ALUNO);
@@ -61,7 +61,7 @@ final class AlunoController
 
     private function financeiro($COD_ALUNO, $CFC)
     {
-        $aulasDAO = new AlunoDAO($CFC);
+        $aulasDAO = DAOFactory::createAlunoDAO($CFC);
         $result = $aulasDAO->financeiroAluno($COD_ALUNO);
         return $result;
     }
@@ -73,7 +73,7 @@ final class AlunoController
     {
         $CFC = $args["cfc"];
         $COD_ALUNO = $args["COD_ALUNO"];
-        $aulasDAO = new AlunoDAO($CFC);
+        $aulasDAO = DAOFactory::createAlunoDAO($CFC);
         $result = $aulasDAO->financeiroAlunoPagos($COD_ALUNO);
         $response = $response->withJson($result);
         return $response;
@@ -83,7 +83,7 @@ final class AlunoController
     {
         $CFC = $args["cfc"];
         $COD_ALUNO = $args["COD_ALUNO"];
-        $aulasDAO = new AlunoDAO($CFC);
+        $aulasDAO = DAOFactory::createAlunoDAO($CFC);
         $result = $aulasDAO->financeiroAlunoAPagar($COD_ALUNO);
         $response = $response->withJson($result);
         return $response;
@@ -93,7 +93,7 @@ final class AlunoController
     {
         $CFC = $args["cfc"];
         $COD_ALUNO = $args["COD_ALUNO"];
-        $aulasDAO = new AlunoDAO($CFC);
+        $aulasDAO = DAOFactory::createAlunoDAO($CFC);
         $result = $aulasDAO->financeiroAlunoTodos($COD_ALUNO);
         $response = $response->withJson($result);
         return $response;
@@ -103,7 +103,7 @@ final class AlunoController
     {
         $CFC = $args["cfc"];
         $COD_ALUNO = $args["COD_ALUNO"];
-        $aulasDAO = new AlunoDAO($CFC);
+        $aulasDAO = DAOFactory::createAlunoDAO($CFC);
         $result = $aulasDAO->aulasAluno($COD_ALUNO);
         $response = $response->withJson($result);
         return $response;
@@ -113,7 +113,7 @@ final class AlunoController
     {
         $CFC = $args["cfc"];
         $COD_ALUNO = $args["COD_ALUNO"];
-        $aulasDAO = new AlunoDAO($CFC);
+        $aulasDAO = DAOFactory::createAlunoDAO($CFC);
         $result = $aulasDAO->exameDirecao($COD_ALUNO);
         $response = $response->withJson($result);
         return $response;

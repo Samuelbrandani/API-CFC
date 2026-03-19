@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\DAO\MySQL\OneSignalDAO;
+use App\DAO\DAOFactory;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \Slim\Http\Response as Response;
 
@@ -14,7 +14,7 @@ final class OneSignalController
         // if ($_SERVER["HTTP_X_CRON_AUTH"] != "b4eef3bdc520a4b4e85b28aba25fa445") {
         //     die("Acesso nao Autorizado");
         // }
-        $oneSignalDAO = new OneSignalDAO($args['cfc']);
+        $oneSignalDAO = DAOFactory::createOneSignalDAO($args['cfc']);
         $tokens = $this->getTokensOneSignal($args['cfc']);
         $app_id = $tokens["app_id"];
         $authorization = $tokens["authorization"];

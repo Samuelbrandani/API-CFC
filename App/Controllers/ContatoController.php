@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\DAO\MySQL\ContatoDAO;
+use App\DAO\DAOFactory;
 use App\Models\EmailModel;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \Slim\Http\Response as Response;
@@ -53,7 +53,7 @@ final class ContatoController
             $emailModel->setRetorno($retorno['message']);
             $response = $response->withStatus(200)->withJson($retorno);
         }
-        $contatoDAO = new ContatoDAO($args['cfc']);
+        $contatoDAO = DAOFactory::createContatoDAO($args['cfc']);
         $contatoDAO->insertContatoPeloSite($emailModel);
         return $response;
     }

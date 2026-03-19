@@ -2,11 +2,11 @@
 
 namespace App\DAO\Firebird;
 
-class OneSignalDAO extends Conexao
+class OneSignalDAO extends FirebirdConnection
 {
-    public function __construct($cfc)
+    public function __construct(array $config)
     {
-        parent::__construct($cfc);
+        parent::__construct($config);
     }
 
     public function insertPlayerId($player_id, $COD_ALUNO)

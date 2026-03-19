@@ -2,11 +2,11 @@
 
 namespace App\DAO\MySQL;
 
-class ConfigDAO extends Conexao
+class ConfigDAO extends MysqlConnection
 {
-    public function __construct($cfc)
+    public function __construct(array $config)
     {
-        parent::__construct($cfc);
+        parent::__construct($config);
     }
 
     public function getBaseConfigs()
