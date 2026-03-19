@@ -16,16 +16,21 @@ jobs:
       - name: Instalar dependências (sem dev)
         run: composer install --no-dev --optimize-autoloader
 
+      - name: Instalar lftp
+        run: sudo apt-get install -y lftp
+
       - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          protocol: ftps
-          exclude: |
-            **/.git*
-            **/.git*/**
-            .github/**
-            phpinfo.php
+        run: |
+          lftp -e "
+            set ftp:ssl-allow no;
+            set net:reconnect-interval-base 5;
+            set net:max-retries 3;
+            open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' '${{ secrets.FTP_HOST }}';
+            mirror --reverse --delete --verbose \
+              --exclude=^\.git \
+              --exclude=^\.github \
+              --exclude=^phpinfo\.php \
+              --exclude=^\.DS_Store \
+              . '${{ secrets.FTP_SERVER_DIR }}';
+            quit
+          "
